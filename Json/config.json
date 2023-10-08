@@ -1,14 +1,27 @@
 {
+	"informacion" :{
+		"casa" : {
+			"presupuesto" : 1500000,
+			"ladrillosxMuros" : [50, 150, 80, 100, 200]
+		},
+		"Albañil": {
+			"presupuestoaPedir" : 150000
+		},
+		"Fabrica" : {
+			
+		}
+	}
+	,
 	"acciones" : [
 		{
             "time": "07:00",
 			"task": "EncargarLadrillos",
 			"operador": "Encargado",
-			"velocidad": [5, 10, 15, 20], //En Minutos
+			"velocidad": [5, 10, 15, 20],
 			"cantidad": 10
 		},
 		{
-			"time": null, //Depende de la velocidad anterior.
+			"time": null, 
 			"task": "ConstruirLadrillos",
 			"operador": "Fabrica",
 			"velocidad": [20, 25, 30]

@@ -19,7 +19,7 @@ class Encargado{
             this->presupuesto = presupuesto + pCantidad;
         }
 
-        void EncargarLadrillos(int pPresupuesto){
+        void EncargarLadrillos(){
             
         }
 };
