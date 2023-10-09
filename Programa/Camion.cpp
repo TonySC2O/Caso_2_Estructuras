@@ -2,6 +2,8 @@
 #include "../Soporte/List.cpp"
 #include <vector>
 
+#include "../Threads/ThreadCamion.cpp"
+
 //Clase Pila
 
 #ifndef CAMION 
@@ -11,15 +13,20 @@
 template <typename T>
 class Camion : public Stack<T>{
     private:
-        List<T> *stackList;
+        Stack<T> *ColaLadrillos;
         int cantidadLadrillos;
-        vector<int> tiemposViaje;
+        int maxLadrillosxViaje;
+        int maxTiempoViaje;
+        int minTiempoViaje;
 
     public:
-        Camion(vector<int> pTiemposViaje)
+        Camion(int pMax, int pMin, int pMaxLadrillosxViaje)
         {
-            stackList = new List<T>();
-            this.tiemposViaje = pTiemposViaje;
+            ColaLadrillos = new Stack<T>();
+            
+            this->maxTiempoViaje = pMax;
+            this->minTiempoViaje = pMin;
+            this->maxLadrillosxViaje = pMaxLadrillosxViaje;
         }
 
         void Empacar(int pCantidad){

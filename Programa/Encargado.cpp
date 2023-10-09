@@ -1,6 +1,8 @@
 
 //Clase que maneja algunas reglas de la simulación
 
+#include "Fabrica.cpp"
+
 #ifndef ENCARGADO 
 
 #define ENCARGADO 1
@@ -8,19 +10,30 @@
 class Encargado{
     private:
         int presupuesto;
+        int gastoxPedido;
+        int presupuestoExtra;
 
     public:
-        Encargado(int pPresupuesto)
+        Encargado(int pPresupuesto, int pGastoxPedido)
         {
             this->presupuesto = pPresupuesto;
+            this->gastoxPedido = pGastoxPedido;
+            this->presupuestoExtra = 0;
         }
 
         void PedirPresupuesto(int pCantidad){
             this->presupuesto = presupuesto + pCantidad;
+            this->presupuestoExtra = presupuestoExtra + pCantidad;
+            cout << "Se ha pedido un presupuesto de $" << pCantidad << endl
+            << "Total de presupuesto extra pedido: $" << presupuestoExtra << endl;
         }
 
-        void EncargarLadrillos(){
-            
+        void EncargarLadrillos(Fabrica pfabrica){
+            if(presupuesto-gastoxPedido < 0){
+                PedirPresupuesto(gastoxPedido);
+            }else{
+                pfabrica.CrearLadrillos(gastoxPedido);
+            }
         }
 };
 

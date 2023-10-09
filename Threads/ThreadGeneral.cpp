@@ -5,28 +5,31 @@
 #include <iostream>
 #include <thread>
 
-
 class ThreadGeneral{
     public:
-        void Ejecutar() {
-            // Coloca aquí el código que deseas ejecutar en el hilo
+        ThreadGeneral(){}
+
+        void Ejecutar(int pTime, string pAccion) {
+            
             while(true){
                 tiempo++;
                 std::this_thread::sleep_for(std::chrono::seconds(1));
                 std::cout << "Hilo: " << tiempo << std::endl;
-                if(tiempo == 10){
+                if(pAccion != "Main"){
+                    if(tiempo == pTime){
+                        break;
+                    }
+                }else if(tiempo == 5){
                     break;
                 }
             }
         }
 
-        void Iniciar() {
-            // Crea un hilo y ejecuta el método Ejecutar en ese hilo
-            hilo = thread(&ThreadGeneral::Ejecutar, this);
+        void Iniciar(int pTime, string pAccion) {
+            hilo = thread(&ThreadGeneral::Ejecutar, this, pTime, pAccion);
         }
 
         void Esperar() {
-            // Espera a que el hilo termine su ejecución
             if (hilo.joinable()) {
                 hilo.join();
             }

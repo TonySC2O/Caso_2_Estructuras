@@ -15,6 +15,8 @@
 
 #include "../Casa/Casa.cpp"
 
+#include "../Manager/Manager.cpp"
+
 
 using namespace std;
 
@@ -28,21 +30,20 @@ auto leerJson(){
 int main(){
     
     // Se consiguen los datos del json.
-    auto json = leerJson();
-
+    nlohmann::json json = leerJson();
     // Se crea la casa.
-    Casa* miCasa = new Casa(json["informacion"]["casa"]["LadrillosxMuros"], 
+    Casa* miCasa = new Casa(json["informacion"]["casa"]["ladrillosxMuros"], 
                             json["informacion"]["casa"]["presupuesto"]);
     
     cout <<  miCasa->getMuros()->at(0).getCantidadLadrillos() << endl;
-    
+
+    Manager manager(json);
+
     ThreadGeneral hilo;
 
+    hilo.Iniciar(2, "Main");
 
-    //hilo.Iniciar();
-
-
-    //hilo.Esperar();
+    hilo.Esperar();
 
     PilaLadrillos<Ladrillo>* pilaLadrillos = new PilaLadrillos<Ladrillo>();
     string e = "e";
