@@ -1,12 +1,15 @@
 
 //Clase que maneja algunas reglas de la simulación
 
+#include "../Soporte/Ladrillo.cpp"
+
 #ifndef FABRICA 
 
 #define FABRICA 1
 
 class Fabrica{
     private:
+        vector<Ladrillo>* ladrillosFabricados;
         int ladrilloxPago;
         int pago;
         int maxTiempoFabricar;
@@ -15,6 +18,7 @@ class Fabrica{
     public:
         Fabrica( int pMax, int pMin, int pLxP, int pPago)
         {
+            ladrillosFabricados = new vector<Ladrillo>();
             this->maxTiempoFabricar = pMax;
             this->minTiempoFabricar = pMin;
             this->ladrilloxPago = pLxP;
@@ -23,8 +27,15 @@ class Fabrica{
 
         void CrearLadrillos(int pCantidad){
             tiempoFabricar = rand()%(maxTiempoFabricar+1-minTiempoFabricar) + minTiempoFabricar;
-            ThreadGeneral hiloFabrica;
-            hiloFabrica.Iniciar(tiempoFabricar, "CrearLadrillos");
+
+            this->ladrillosFabricados->clear();
+            for (int i = 0; i < pCantidad; i++)
+            {
+                Ladrillo ladrillo;
+                this->ladrillosFabricados->push_back(ladrillo);
+            }
+            
+            EnviarLadrillos();
         }
 
         void EnviarLadrillos(){

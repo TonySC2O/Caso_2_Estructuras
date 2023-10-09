@@ -10,15 +10,10 @@ using namespace std;
 
 class Ladrillo {
     private: 
-        int num;
-
+        int tiempoPilaCamion;
     public:
-        Ladrillo(int pNum) {
-            this->num = pNum;
-        }
-
-        int getNum() {
-            return num;
+        Ladrillo() {
+            this->tiempoPilaCamion = 0;
         }
 };
 
