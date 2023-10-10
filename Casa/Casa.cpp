@@ -6,6 +6,8 @@
 
 #define CASA 1
 
+using std::vector;
+
 class Casa{
     private:
         int cantidadMuros;

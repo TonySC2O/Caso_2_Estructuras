@@ -4,8 +4,8 @@
 #include "../Programa/Fabrica.cpp"
 #include "../Programa/PilaLadrillos.cpp"
 #include "../Soporte/Ladrillo.cpp"
-#include "../Threads/ThreadGeneral.cpp"
 #include "../Json/json.hpp"
+#include "../Threads/ThreadG.cpp"
 
 #ifndef MANAGER 
 
@@ -16,6 +16,7 @@ class Manager{
         Encargado *encargado;
         Fabrica *fabrica;
         Camion<Ladrillo> *camion;
+        ThreadG hiloGeneral;
     public:
         Manager(nlohmann::json pJson)
         {
@@ -30,7 +31,8 @@ class Manager{
             this->camion = new Camion<Ladrillo>(pJson["informacion"]["camion"]["maxTiempoViaje"],
                                       pJson["informacion"]["camion"]["minTiempoViaje"],
                                       pJson["informacion"]["camion"]["maxLadrillosxViaje"]);
-            
+
+            this->hiloGeneral.Iniciar(10, "E");
         }
 
         Encargado* getEncargado(){

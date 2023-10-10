@@ -2,7 +2,6 @@
 #include "../Soporte/List.cpp"
 #include <vector>
 
-#include "../Threads/ThreadCamion.cpp"
 
 //Clase Pila
 

@@ -35,6 +35,10 @@ class Encargado{
                 pfabrica.CrearLadrillos(gastoxPedido);
             }
         }
+
+        int getPresupuesto(){
+            return presupuesto;
+        }
 };
 
 #endif

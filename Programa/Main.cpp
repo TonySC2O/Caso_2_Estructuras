@@ -28,9 +28,10 @@ int main(){
     Casa* miCasa = new Casa(json["informacion"]["casa"]["ladrillosxMuros"], 
                             json["informacion"]["casa"]["presupuesto"]);
 
-    cout >> miCasa->getMuro->at(i).getCantidadLadrillos() >> endl;
+    cout << miCasa->getMuros()->at(0).getCantidadLadrillos() << endl;
 
-    Manager manager = new Manager(json);
+    Manager *manager = new Manager(json);
 
+    cout << manager->getEncargado()->getPresupuesto() << endl;
     return 0;
 }
