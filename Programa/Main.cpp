@@ -11,6 +11,9 @@
 
 #include "../Manager/Manager.cpp"
 
+#include "../Threads/ThreadGeneral.cpp"
+
+
 using namespace std;
 
 nlohmann::json leerJson(){
@@ -25,13 +28,16 @@ int main(){
     // Se consiguen los datos del json.
     nlohmann::json json = leerJson();
     // Se crea la casa.
-    Casa* miCasa = new Casa(json["informacion"]["casa"]["ladrillosxMuros"], 
-                            json["informacion"]["casa"]["presupuesto"]);
+    Casa miCasa(json["informacion"]["casa"]["ladrillosxMuros"], 
+                json["informacion"]["casa"]["presupuesto"]);
 
-    cout << miCasa->getMuros()->at(0).getCantidadLadrillos() << endl;
+    cout << miCasa.getMuros()->at(0).getCantidadLadrillos() << endl;
 
-    Manager *manager = new Manager(json);
+    Manager manager(json);
 
-    cout << manager->getEncargado()->getPresupuesto() << endl;
+    ThreadGeneral hiloGeneral(manager, miCasa);
+
+    hiloGeneral.Iniciar();
+
     return 0;
 }

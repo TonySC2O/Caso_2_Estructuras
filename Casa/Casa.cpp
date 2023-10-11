@@ -15,6 +15,8 @@ class Casa{
         vector<Muro>* Muros;
 
     public:
+        Casa(){}
+
         Casa(vector<int> pMuros, int pPresupuesto)
         {
             this->presupuestoInicial = pPresupuesto;

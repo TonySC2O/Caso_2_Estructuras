@@ -5,7 +5,6 @@
 #include "../Programa/PilaLadrillos.cpp"
 #include "../Soporte/Ladrillo.cpp"
 #include "../Json/json.hpp"
-#include "../Threads/ThreadG.cpp"
 
 #ifndef MANAGER 
 
@@ -15,24 +14,26 @@ class Manager{
     private:
         Encargado *encargado;
         Fabrica *fabrica;
-        Camion<Ladrillo> *camion;
-        ThreadG hiloGeneral;
+        PilaLadrillos<Ladrillo> *pilaLadrillos;
     public:
+        Manager(){}
+        
         Manager(nlohmann::json pJson)
         {
             this->encargado = new Encargado(pJson["informacion"]["casa"]["presupuesto"],
                                             pJson["informacion"]["encargado"]["gastoxPedido"]);
 
-            this->fabrica = new Fabrica(pJson["informacion"]["fabrica"]["maxTiempoFabricar"],
-                                        pJson["informacion"]["fabrica"]["minTiempoFabricar"],
-                                        pJson["informacion"]["fabrica"]["ladrilloxPago"],
-                                        pJson["informacion"]["fabrica"]["pago"]);
-
-            this->camion = new Camion<Ladrillo>(pJson["informacion"]["camion"]["maxTiempoViaje"],
+            Camion<Ladrillo> camion(pJson["informacion"]["camion"]["maxTiempoViaje"],
                                       pJson["informacion"]["camion"]["minTiempoViaje"],
                                       pJson["informacion"]["camion"]["maxLadrillosxViaje"]);
 
-            this->hiloGeneral.Iniciar(10, "E");
+            this->fabrica = new Fabrica(pJson["informacion"]["fabrica"]["maxTiempoFabricar"],
+                                        pJson["informacion"]["fabrica"]["minTiempoFabricar"],
+                                        pJson["informacion"]["fabrica"]["ladrilloxPago"],
+                                        pJson["informacion"]["fabrica"]["pago"], camion);
+
+
+            this->pilaLadrillos = new PilaLadrillos<Ladrillo>();
         }
 
         Encargado* getEncargado(){
@@ -43,10 +44,9 @@ class Manager{
             return fabrica;
         }
         
-        Camion<Ladrillo>* getCamion(){
-            return camion;
+        PilaLadrillos<Ladrillo>* getPilaLadrillos(){
+            return pilaLadrillos;
         }
-        
 };
 
 #endif

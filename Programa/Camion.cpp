@@ -19,6 +19,8 @@ class Camion : public Stack<T>{
         int minTiempoViaje;
 
     public:
+        Camion(){}
+
         Camion(int pMax, int pMin, int pMaxLadrillosxViaje)
         {
             ColaLadrillos = new Stack<T>();
@@ -28,8 +30,30 @@ class Camion : public Stack<T>{
             this->maxLadrillosxViaje = pMaxLadrillosxViaje;
         }
 
-        void Empacar(int pCantidad){
-            this->cantidadLadrillos = pCantidad;
+        void Empacar(vector<Ladrillo> *pLadrillos){
+            this->cantidadLadrillos = pLadrillos.size();
+            
+            for (int i = 0; i < cantidadLadrillos; i++)
+            {
+                ColaLadrillos->push(pLadrillos->at(i));
+            }
+
+            Viajar();
+        }
+
+        void EmpacarPorPartes(vector<Ladrillo> *pLadrillos){
+            for (int i = 0; i < pLadrillos->size(); i++)
+            {
+                this->cantidadLadrillos = 0;
+                for (int j = 0; j < maxLadrillosxViaje; j++)
+                {
+                    this->cantidadLadrillos++;
+                    ColaLadrillos->push(pLadrillos->at(i));
+                }
+                
+                Viajar();
+            }
+            
         }
 
         void Viajar(){
@@ -38,6 +62,10 @@ class Camion : public Stack<T>{
 
         void Desempacar(){
 
+        }
+
+        int getMaxLadrillosxViaje(){
+            return maxLadrillosxViaje;
         }
 };
 
