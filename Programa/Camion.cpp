@@ -1,6 +1,7 @@
 #include "../Soporte/stack.cpp"
 #include "../Soporte/List.cpp"
 #include "../Soporte/Ladrillo.cpp"
+#include "../Threads/ThreadCamion.cpp"
 #include <vector>
 
 //Clase Pila
@@ -30,7 +31,7 @@ class Camion : public Stack<T>{
             this->maxLadrillosxViaje = pMaxLadrillosxViaje;
         }
 
-        void Empacar(vector<Ladrillo*> pLadrillos){
+        void Empacar(vector<Ladrillo*> pLadrillos, bool *pPilaLlena){
             this->cantidadLadrillos = pLadrillos.size();
             
             for (int i = 0; i < cantidadLadrillos; i++)
@@ -38,10 +39,10 @@ class Camion : public Stack<T>{
                 ColaLadrillos.push(pLadrillos.at(i));
             }
 
-            Viajar();
+            Viajar(pPilaLlena);
         }
 
-        void EmpacarPorPartes(vector<Ladrillo*> pLadrillos){
+        void EmpacarPorPartes(vector<Ladrillo*> pLadrillos, bool *pPilaLlena){
             int loops = maxLadrillosxViaje / pLadrillos.size();
             if(maxLadrillosxViaje % pLadrillos.size() < 0){
                 loops++;
@@ -60,17 +61,23 @@ class Camion : public Stack<T>{
                         break;
                     }
                 }
-                Viajar();
+                Viajar(pPilaLlena);
             }
             
         }
 
-        void Viajar(){
-            cout << "Viaje" << endl;
+        void Viajar(bool *pPilaLlena){
+            
+            int tiempoViaje = rand()%(maxTiempoViaje+1-minTiempoViaje) + minTiempoViaje;
+
+            ThreadCamion hiloCamion(tiempoViaje);
+            hiloCamion.Iniciar();
+            cout << "Viaje " << tiempoViaje << endl;
+            Desempacar(pPilaLlena);
         }
 
-        void Desempacar(){
-
+        void Desempacar(bool *pPilaLlena){
+            
         }
 
         int getMaxLadrillosxViaje(){

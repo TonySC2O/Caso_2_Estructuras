@@ -29,7 +29,7 @@ class Fabrica{
             this->camion = pCamion;
         }
 
-        void CrearLadrillos(int pPagoPedido){
+        void CrearLadrillos(int pPagoPedido, bool *pPilaLlena){
 
             tiempoFabricar = rand()%(maxTiempoFabricar+1-minTiempoFabricar) + minTiempoFabricar;
 
@@ -43,9 +43,9 @@ class Fabrica{
             }
             
             if(ladrillosFabricados.size() <= camion.getMaxLadrillosxViaje()){
-                camion.Empacar(ladrillosFabricados);
+                camion.Empacar(ladrillosFabricados, pPilaLlena);
             }else{
-                camion.EmpacarPorPartes(ladrillosFabricados);
+                camion.EmpacarPorPartes(ladrillosFabricados, pPilaLlena);
             }
         }
 

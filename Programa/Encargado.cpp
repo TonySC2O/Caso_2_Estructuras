@@ -28,12 +28,12 @@ class Encargado{
             << "Total de presupuesto extra pedido: $" << presupuestoExtra << endl;
         }
 
-        void EncargarLadrillos(Fabrica *pFabrica){
+        void EncargarLadrillos(Fabrica *pFabrica, bool *pPilaLlena){
             if(presupuesto-gastoxPedido < 0){
                 PedirPresupuesto(gastoxPedido);
-                EncargarLadrillos(pFabrica);
+                EncargarLadrillos(pFabrica, pPilaLlena);
             }else{
-                pFabrica->CrearLadrillos(gastoxPedido);
+                pFabrica->CrearLadrillos(gastoxPedido, pPilaLlena);
             }
         }
 

@@ -15,6 +15,7 @@ class ThreadGeneral{
         Manager manager;
         Casa casa;
         int tiempo = 0;
+        bool *pilaLlena;
 
         void Ejecutar() {
             while(true){
@@ -22,8 +23,8 @@ class ThreadGeneral{
                 std::this_thread::sleep_for(std::chrono::seconds(3));
                 std::cout << "Hilo: " << tiempo << std::endl;
 
-                if(manager.getPilaLadrillos()->isEmpty()){
-                    manager.getEncargado()->EncargarLadrillos(manager.getFabrica());
+                if(manager.getPilaLadrillos()->isEmpty() && !pilaLlena){
+                    manager.getEncargado()->EncargarLadrillos(manager.getFabrica(), pilaLlena);
                 }
 
                 if(tiempo == 5){
@@ -36,6 +37,7 @@ class ThreadGeneral{
         ThreadGeneral(Manager pManager, Casa pCasa){
             this->manager = pManager;
             this->casa = pCasa;
+            this->pilaLlena = new bool(false);
         }
 
         void Iniciar() {
