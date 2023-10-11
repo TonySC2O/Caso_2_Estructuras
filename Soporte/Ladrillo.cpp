@@ -15,6 +15,14 @@ class Ladrillo {
         Ladrillo() {
             this->tiempoPilaCamion = 0;
         }
+
+        int getTiempoPilaCamion(){
+            return tiempoPilaCamion;
+        }
+
+        void setTiempoPilaCamion(int pTiempo){
+            this->tiempoPilaCamion = pTiempo;
+        }
 };
 
 #endif

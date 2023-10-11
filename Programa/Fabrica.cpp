@@ -15,13 +15,13 @@ class Fabrica{
         int maxTiempoFabricar;
         int minTiempoFabricar;
         int tiempoFabricar;
-        vector<Ladrillo>* ladrillosFabricados;
+        vector<Ladrillo*> ladrillosFabricados;
         Camion<Ladrillo> camion;
 
     public:
         Fabrica( int pMax, int pMin, int pLxP, int pPago, Camion<Ladrillo> pCamion)
         {
-            ladrillosFabricados = new vector<Ladrillo>();
+            ladrillosFabricados = vector<Ladrillo*>();
             this->maxTiempoFabricar = pMax;
             this->minTiempoFabricar = pMin;
             this->ladrilloxPago = pLxP;
@@ -29,18 +29,20 @@ class Fabrica{
             this->camion = pCamion;
         }
 
-        void CrearLadrillos(int pCantidad){
+        void CrearLadrillos(int pPagoPedido){
 
             tiempoFabricar = rand()%(maxTiempoFabricar+1-minTiempoFabricar) + minTiempoFabricar;
 
-            this->ladrillosFabricados->clear();
-            for (int i = 0; i < pCantidad; i++)
+            this->ladrillosFabricados.clear();
+            int ladrillosaConstruir = calcularLadrillos(pPagoPedido);
+            cout << ladrillosaConstruir << endl;
+            for (int i = 0; i < ladrillosaConstruir; i++)
             {
-                Ladrillo ladrillo;
-                this->ladrillosFabricados->push_back(ladrillo);
+                Ladrillo *ladrillo;
+                this->ladrillosFabricados.push_back(ladrillo);
             }
             
-            if(ladrillosFabricados->size() <= camion.getMaxLadrillosxViaje()){
+            if(ladrillosFabricados.size() <= camion.getMaxLadrillosxViaje()){
                 camion.Empacar(ladrillosFabricados);
             }else{
                 camion.EmpacarPorPartes(ladrillosFabricados);

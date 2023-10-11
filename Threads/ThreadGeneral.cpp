@@ -23,10 +23,10 @@ class ThreadGeneral{
                 std::cout << "Hilo: " << tiempo << std::endl;
 
                 if(manager.getPilaLadrillos()->isEmpty()){
-                    manager.getEncargado()->EncargarLadrillos(manager.getFabrica(), this);
+                    manager.getEncargado()->EncargarLadrillos(manager.getFabrica());
                 }
 
-                if(tiempo == 10){
+                if(tiempo == 5){
                     break;
                 }
             }
