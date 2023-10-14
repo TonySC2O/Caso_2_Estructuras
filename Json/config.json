@@ -20,7 +20,7 @@
 		"camion" : {
 			"maxTiempoViaje": 5,
 			"minTiempoViaje": 2,
-			"maxLadrillosxViaje": 100
+			"maxLadrillosxViaje": 200
 		}
 	}
 	,

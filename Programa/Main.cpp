@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <typeinfo>
 
 #include <sstream>
 #include <fstream>
@@ -36,7 +37,6 @@ int main(){
     Manager manager(json);
 
     ThreadGeneral hiloGeneral(manager, miCasa);
-
     hiloGeneral.Iniciar();
 
     return 0;

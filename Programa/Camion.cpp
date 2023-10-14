@@ -31,7 +31,7 @@ class Camion : public Stack<T>{
             this->maxLadrillosxViaje = pMaxLadrillosxViaje;
         }
 
-        void Empacar(vector<Ladrillo*> pLadrillos, bool *pPilaLlena){
+        void Empacar(vector<Ladrillo*> pLadrillos, bool &pPilaLlena){
             this->cantidadLadrillos = pLadrillos.size();
             
             for (int i = 0; i < cantidadLadrillos; i++)
@@ -42,7 +42,7 @@ class Camion : public Stack<T>{
             Viajar(pPilaLlena);
         }
 
-        void EmpacarPorPartes(vector<Ladrillo*> pLadrillos, bool *pPilaLlena){
+        void EmpacarPorPartes(vector<Ladrillo*> pLadrillos, bool &pPilaLlena){
             int loops = maxLadrillosxViaje / pLadrillos.size();
             if(maxLadrillosxViaje % pLadrillos.size() < 0){
                 loops++;
@@ -66,18 +66,18 @@ class Camion : public Stack<T>{
             
         }
 
-        void Viajar(bool *pPilaLlena){
+        void Viajar(bool &pPilaLlena){
             
             int tiempoViaje = rand()%(maxTiempoViaje+1-minTiempoViaje) + minTiempoViaje;
-
+            cout << "Viaje " << tiempoViaje << endl;
             ThreadCamion hiloCamion(tiempoViaje);
             hiloCamion.Iniciar();
-            cout << "Viaje " << tiempoViaje << endl;
             Desempacar(pPilaLlena);
         }
 
-        void Desempacar(bool *pPilaLlena){
-            
+        void Desempacar(bool &pPilaLlena){
+            pPilaLlena = false;
+            cout << pPilaLlena << endl;
         }
 
         int getMaxLadrillosxViaje(){

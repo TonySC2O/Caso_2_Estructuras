@@ -29,13 +29,13 @@ class Fabrica{
             this->camion = pCamion;
         }
 
-        void CrearLadrillos(int pPagoPedido, bool *pPilaLlena){
+        void CrearLadrillos(int pPagoPedido, bool &pPilaLlena){
 
             tiempoFabricar = rand()%(maxTiempoFabricar+1-minTiempoFabricar) + minTiempoFabricar;
 
             this->ladrillosFabricados.clear();
             int ladrillosaConstruir = calcularLadrillos(pPagoPedido);
-            cout << ladrillosaConstruir << endl;
+
             for (int i = 0; i < ladrillosaConstruir; i++)
             {
                 Ladrillo *ladrillo;

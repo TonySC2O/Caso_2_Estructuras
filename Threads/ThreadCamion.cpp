@@ -1,8 +1,10 @@
-
-
 #include <string>
 #include <iostream>
 #include <thread>
+
+#ifndef THREADCAMION
+
+#define THREADCAMION
 
 using namespace std;
 
@@ -15,8 +17,8 @@ class ThreadCamion{
         void Ejecutar() {
             while(true){
                 tiempo++;
-                std::this_thread::sleep_for(std::chrono::seconds(3));
-
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+                cout << "Viajando " << tiempo << endl;
                 if(tiempo == cantidadTiempo){
                     break;
                 }
@@ -32,3 +34,5 @@ class ThreadCamion{
             hilo.join();
         }
 };
+
+#endif
