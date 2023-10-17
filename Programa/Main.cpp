@@ -1,24 +1,20 @@
-
 #include <iostream>
 #include <string>
 #include <vector>
-#include <typeinfo>
 
 #include <sstream>
 #include <fstream>
-#include "../Json/json.hpp"
 
-#include "../Casa/Casa.cpp"
-
-#include "../Manager/Manager.cpp"
-
-#include "../Threads/ThreadGeneral.cpp"
+#include "Json/json.hpp"
+#include "Casa/Casa.cpp"
+#include "Manager/Manager.cpp"
+#include "Threads/ThreadGeneral.cpp"
 
 
 using namespace std;
 
 nlohmann::json leerJson(){
-    ifstream fJson("../Json/config.json");
+    ifstream fJson("Json/config.json");
     stringstream buffer;
     buffer << fJson.rdbuf();
     return nlohmann::json::parse(buffer.str());

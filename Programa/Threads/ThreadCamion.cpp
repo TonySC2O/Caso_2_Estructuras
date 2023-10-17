@@ -26,6 +26,8 @@ class ThreadCamion{
         }
 
     public:
+        ThreadCamion(){
+        }
         ThreadCamion(int pCantidadTiempo){
             this->cantidadTiempo = pCantidadTiempo;
         }

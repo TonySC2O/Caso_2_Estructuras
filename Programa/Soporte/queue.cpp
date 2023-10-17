@@ -40,6 +40,10 @@ class Queue {
         {
             return queueList->isEmpty();
         }
+        
+        int getSize(){
+            return queueList->getSize();
+        }
 };
 
 #endif

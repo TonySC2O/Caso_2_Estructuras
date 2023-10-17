@@ -6,6 +6,12 @@
 #include <thread>
 #include "../Manager/Manager.cpp"
 #include "../Casa/Casa.cpp"
+#include "../Objetos/Ladrillo.cpp"
+#include "../Objetos/PilaLadrillos.cpp"
+
+#ifndef THREADGENERAL
+
+#define THREADGENERAL
 
 using namespace std;
 
@@ -15,24 +21,35 @@ class ThreadGeneral{
         Manager manager;
         Casa casa;
         int tiempo = 0;
-        bool pilaLlena;
 
         void Ejecutar() {
             while(true){
                 tiempo++;
                 std::this_thread::sleep_for(std::chrono::seconds(1));
-                cout << "Hilo: " << tiempo << " " << pilaLlena << endl;
 
+                cout << "Hilo: " << tiempo << endl;
+                cout << "La pila tiene " << manager.getPilaLadrillos()->getSize() << " ladrillos" << endl;
+                cout << manager.getPilaLadrillos()->isEmpty() << endl;
                 if(manager.getPilaLadrillos()->isEmpty()){
-                    if(pilaLlena == false){
-                        manager.getEncargado()->EncargarLadrillos(manager.getFabrica(), pilaLlena);
-                        pilaLlena = new bool(true);
-                    }
+
+                    cout << "Pila vacia" << endl;
+                    manager.getEncargado()->EncargarLadrillos(manager.getFabrica(), manager.getPilaLadrillos());
+                    
+                    continue;
                 }
 
-                if(tiempo == 10){
+                //while(manager.getPilaLadrillos()->isEmpty() == false){
+                    manager.getAlbanil()->RecogerLadrillos(manager.getPilaLadrillos(), casa);
+                //}
+
+                if(tiempo >= 3){
                     break;
                 }
+
+                /*
+                if(casa.isCasaConstruida()){
+                    break;
+                }*/
             }
         }
 
@@ -40,7 +57,6 @@ class ThreadGeneral{
         ThreadGeneral(Manager pManager, Casa pCasa){
             this->manager = pManager;
             this->casa = pCasa;
-            this->pilaLlena = false;
         }
 
         void Iniciar() {
@@ -60,3 +76,5 @@ class ThreadGeneral{
             return tiempo;
         }
 };
+
+#endif

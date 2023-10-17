@@ -1,8 +1,10 @@
 
 //Clase que maneja algunas reglas de la simulación
 
-#include "../Soporte/Ladrillo.cpp"
+#include "Ladrillo.cpp"
 #include "Camion.cpp"
+#include "PilaLadrillos.cpp"
+#include "Ladrillo.cpp"
 
 #ifndef FABRICA 
 
@@ -29,8 +31,8 @@ class Fabrica{
             this->camion = pCamion;
         }
 
-        void CrearLadrillos(int pPagoPedido, bool &pPilaLlena){
-
+        void CrearLadrillos(int pPagoPedido, PilaLadrillos<Ladrillo> *pPila){
+            //Aquí se debe colocar un thread
             tiempoFabricar = rand()%(maxTiempoFabricar+1-minTiempoFabricar) + minTiempoFabricar;
 
             this->ladrillosFabricados.clear();
@@ -38,14 +40,13 @@ class Fabrica{
 
             for (int i = 0; i < ladrillosaConstruir; i++)
             {
-                Ladrillo *ladrillo;
-                this->ladrillosFabricados.push_back(ladrillo);
+                this->ladrillosFabricados.push_back(new Ladrillo(i));
             }
             
             if(ladrillosFabricados.size() <= camion.getMaxLadrillosxViaje()){
-                camion.Empacar(ladrillosFabricados, pPilaLlena);
+                camion.Empacar(ladrillosFabricados, pPila);
             }else{
-                camion.EmpacarPorPartes(ladrillosFabricados, pPilaLlena);
+                camion.EmpacarPorPartes(ladrillosFabricados, pPila);
             }
         }
 

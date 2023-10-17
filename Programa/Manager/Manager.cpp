@@ -1,9 +1,10 @@
 
-#include "../Programa/Camion.cpp"
-#include "../Programa/Encargado.cpp"
-#include "../Programa/Fabrica.cpp"
-#include "../Programa/PilaLadrillos.cpp"
-#include "../Soporte/Ladrillo.cpp"
+#include "../Objetos/Camion.cpp"
+#include "../Objetos/Encargado.cpp"
+#include "../Objetos/Fabrica.cpp"
+#include "../Objetos/PilaLadrillos.cpp"
+#include "../Objetos/Ladrillo.cpp"
+#include "../Objetos/Albanil.cpp"
 #include "../Json/json.hpp"
 
 #ifndef MANAGER 
@@ -15,11 +16,11 @@ class Manager{
         Encargado *encargado;
         Fabrica *fabrica;
         PilaLadrillos<Ladrillo> *pilaLadrillos;
+        Albanil<Ladrillo> *albanil;
+
     public:
         Manager(){}
-        
-        Manager(nlohmann::json pJson)
-        {
+        Manager(nlohmann::json pJson){
             this->encargado = new Encargado(pJson["informacion"]["casa"]["presupuesto"],
                                             pJson["informacion"]["encargado"]["gastoxPedido"]);
 
@@ -31,8 +32,11 @@ class Manager{
                                         pJson["informacion"]["fabrica"]["minTiempoFabricar"],
                                         pJson["informacion"]["fabrica"]["ladrilloxPago"],
                                         pJson["informacion"]["fabrica"]["pago"], camion);
-
-
+            
+            this->albanil = new Albanil<Ladrillo>(pJson["informacion"]["albañil"]["maxLadrillosCargados"],
+                                                  pJson["informacion"]["albañil"]["maxTiempoColocar"],
+                                                  pJson["informacion"]["albañil"]["minTiempoColocar"]);
+            
             this->pilaLadrillos = new PilaLadrillos<Ladrillo>();
         }
 
@@ -46,6 +50,14 @@ class Manager{
         
         PilaLadrillos<Ladrillo>* getPilaLadrillos(){
             return pilaLadrillos;
+        }
+
+        void setPilaLadrillos(PilaLadrillos<Ladrillo> *pPila){
+            this->pilaLadrillos = pPila;
+        }
+        
+        Albanil<Ladrillo>* getAlbanil(){
+            return albanil;
         }
 };
 

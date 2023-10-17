@@ -1,0 +1,32 @@
+{
+	"informacion" :{
+
+		"casa" : {
+			"presupuesto" : 1500000,
+			"ladrillosxMuros" : [50, 150, 80, 100, 200]
+		},
+
+		"encargado": {
+			"gastoxPedido" : 15000
+		},
+
+		"fabrica" : {
+			"maxTiempoFabricar": 3,
+			"minTiempoFabricar": 1,
+			"ladrilloxPago": 50,
+			"pago": 5000
+		},
+
+		"camion" : {
+			"maxTiempoViaje": 5,
+			"minTiempoViaje": 2,
+			"maxLadrillosxViaje": 200
+		},
+
+		"albañil": {
+			"maxLadrillosCargados": 10,
+			"maxTiempoColocar": 3,
+			"minTiempoColocar": 1
+		}
+	}
+}

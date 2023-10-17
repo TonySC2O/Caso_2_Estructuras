@@ -17,7 +17,7 @@ class Stack {
 
         void push(T *pData)
         {
-            stackList->insert(0, pData);
+            this->stackList->insert(0, pData);
         }
 
         T *pop()
@@ -38,6 +38,10 @@ class Stack {
         bool isEmpty()
         {
             return stackList->isEmpty();
+        }
+
+        int getSize(){
+            return stackList->getSize();
         }
 };
 

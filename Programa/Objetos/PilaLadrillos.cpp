@@ -10,11 +10,15 @@
 template <typename T>
 class PilaLadrillos : public Stack<T>{
     private:
-        List<T> *listaLadrillos;
+        Stack<T> *listaLadrillos;
     
     public:
         PilaLadrillos(){
-            this->listaLadrillos = new List<T>();
+            this->listaLadrillos = new Stack<T>();
+        }
+
+        int getSize(){
+            return listaLadrillos->getSize();
         }
 
 };

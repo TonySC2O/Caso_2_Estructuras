@@ -1,8 +1,10 @@
+
+#include <vector>
 #include "../Soporte/stack.cpp"
 #include "../Soporte/List.cpp"
-#include "../Soporte/Ladrillo.cpp"
-#include "../Threads/ThreadCamion.cpp"
-#include <vector>
+#include "Ladrillo.cpp"
+#include "PilaLadrillos.cpp"
+
 
 //Clase Pila
 
@@ -31,23 +33,32 @@ class Camion : public Stack<T>{
             this->maxLadrillosxViaje = pMaxLadrillosxViaje;
         }
 
-        void Empacar(vector<Ladrillo*> pLadrillos, bool &pPilaLlena){
-            this->cantidadLadrillos = pLadrillos.size();
+        void Empacar(vector<Ladrillo*> pLadrillos, PilaLadrillos<Ladrillo> *pPila){
             
-            for (int i = 0; i < cantidadLadrillos; i++)
+            ColaLadrillos = Stack<T>();
+            this->cantidadLadrillos = pLadrillos.size();
+
+            for (int i = 0; i < maxLadrillosxViaje; i++)
             {
-                ColaLadrillos.push(pLadrillos.at(i));
+                if(i < pLadrillos.size()){
+                    ColaLadrillos.push(pLadrillos.at(i));
+                }
             }
 
-            Viajar(pPilaLlena);
+            Viajar(pPila);
         }
 
-        void EmpacarPorPartes(vector<Ladrillo*> pLadrillos, bool &pPilaLlena){
+        void EmpacarPorPartes(vector<Ladrillo*> pLadrillos, PilaLadrillos<Ladrillo> *pPila){
+            
+            ColaLadrillos = Stack<T>();
             int loops = maxLadrillosxViaje / pLadrillos.size();
+            
             if(maxLadrillosxViaje % pLadrillos.size() < 0){
                 loops++;
             }
+            
             int indexLadrillo = 0;
+            
             for (int i = 0; i < loops; i++)
             {
                 this->cantidadLadrillos = 0;
@@ -57,27 +68,35 @@ class Camion : public Stack<T>{
                     this->cantidadLadrillos++;
                     indexLadrillo++;
 
-                    if(indexLadrillo > maxLadrillosxViaje){
+                    if(indexLadrillo == maxLadrillosxViaje){
                         break;
                     }
                 }
-                Viajar(pPilaLlena);
+                Viajar(pPila);
             }
             
         }
 
-        void Viajar(bool &pPilaLlena){
-            
+        void Viajar(PilaLadrillos<Ladrillo> *pPila){
+            //Aquí se debe colocar un thread
             int tiempoViaje = rand()%(maxTiempoViaje+1-minTiempoViaje) + minTiempoViaje;
-            cout << "Viaje " << tiempoViaje << endl;
-            ThreadCamion hiloCamion(tiempoViaje);
-            hiloCamion.Iniciar();
-            Desempacar(pPilaLlena);
+            cout << "El viaje a durado " << tiempoViaje << " horas" << endl;
+            Desempacar(pPila);
         }
 
-        void Desempacar(bool &pPilaLlena){
-            pPilaLlena = false;
-            cout << pPilaLlena << endl;
+        void Desempacar(PilaLadrillos<Ladrillo> *pPila){
+            int lenght = ColaLadrillos.getSize();
+            for (int i = 0; i < lenght; i++)
+            {
+                if (!ColaLadrillos.isEmpty())
+                {
+                    pPila->push(ColaLadrillos.pop());
+                    
+                }
+                
+                cout << pPila->getSize() << " y "<< ColaLadrillos.getSize()<< endl;
+            }
+            cout <<pPila->getSize() << endl;
         }
 
         int getMaxLadrillosxViaje(){

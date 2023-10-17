@@ -1,18 +1,25 @@
 
+
+#include <vector>
+#include "../Objetos/Ladrillo.cpp"
 #ifndef MURO 
 
 #define MURO 1
+
+using namespace std;
 
 class Muro{
     private:
         int cantidadLadrillos;
         int ladrillosColocados;
+        vector<Ladrillo*> ladrillos;
 
     public:
         Muro(int pCantidadLadrillos)
         {
             this->cantidadLadrillos = pCantidadLadrillos;
             this->ladrillosColocados = 0;
+            this->ladrillos = vector<Ladrillo*>();
         }
         
         int getCantidadLadrillos(){
@@ -23,8 +30,9 @@ class Muro{
             return ladrillosColocados;
         }
 
-        void setLadrillosColocados(int pLadrillos){
-            this->ladrillosColocados = pLadrillos;
+        void AgregarLadrillo(Ladrillo *pLadrillo){
+            ladrillos.push_back(pLadrillo);
+            this->ladrillosColocados++;
         }
 };
 
