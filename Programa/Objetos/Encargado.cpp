@@ -2,8 +2,8 @@
 //Clase que maneja algunas reglas de la simulación
 
 #include "Fabrica.cpp"
-#include "PilaLadrillos.cpp"
 #include "Ladrillo.cpp"
+#include "../Casa/Casa.cpp"
 
 #ifndef ENCARGADO 
 
@@ -30,12 +30,12 @@ class Encargado{
             << "Total de presupuesto extra pedido: $" << presupuestoExtra << endl;
         }
 
-        void EncargarLadrillos(Fabrica *pFabrica, PilaLadrillos<Ladrillo> *pPila){
+        void EncargarLadrillos(Fabrica *pFabrica, Casa *pDireccionCasa){
             if(presupuesto-gastoxPedido < 0){
                 PedirPresupuesto(gastoxPedido);
-                EncargarLadrillos(pFabrica, pPila);
+                EncargarLadrillos(pFabrica, pDireccionCasa);
             }else{
-                pFabrica->CrearLadrillos(gastoxPedido, pPila);
+                pFabrica->CrearLadrillos(gastoxPedido, pDireccionCasa);
             }
         }
 

@@ -7,7 +7,6 @@
 #include "../Manager/Manager.cpp"
 #include "../Casa/Casa.cpp"
 #include "../Objetos/Ladrillo.cpp"
-#include "../Objetos/PilaLadrillos.cpp"
 
 #ifndef THREADGENERAL
 
@@ -26,30 +25,25 @@ class ThreadGeneral{
             while(true){
                 tiempo++;
                 std::this_thread::sleep_for(std::chrono::seconds(1));
-
+                
+                cout << "=======================================" << endl;
                 cout << "Hilo: " << tiempo << endl;
-                cout << "La pila tiene " << manager.getPilaLadrillos()->getSize() << " ladrillos" << endl;
-                cout << manager.getPilaLadrillos()->isEmpty() << endl;
-                if(manager.getPilaLadrillos()->isEmpty()){
+                cout << "La pila tiene " << casa.getPilaLadrillos()->getSize() << " ladrillos" << endl;
+                
+                if(casa.getPilaLadrillos()->isEmpty()){
 
                     cout << "Pila vacia" << endl;
-                    manager.getEncargado()->EncargarLadrillos(manager.getFabrica(), manager.getPilaLadrillos());
-                    
+                    manager.getEncargado()->EncargarLadrillos(manager.getFabrica(), &casa);
                     continue;
                 }
 
-                //while(manager.getPilaLadrillos()->isEmpty() == false){
-                    manager.getAlbanil()->RecogerLadrillos(manager.getPilaLadrillos(), casa);
-                //}
-
-                if(tiempo >= 3){
-                    break;
+                if(casa.getPilaLadrillos()->isEmpty() == false){
+                    manager.getAlbanil()->RecogerLadrillos(&casa);
                 }
 
-                /*
                 if(casa.isCasaConstruida()){
                     break;
-                }*/
+                }
             }
         }
 

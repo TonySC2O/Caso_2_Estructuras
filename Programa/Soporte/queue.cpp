@@ -6,7 +6,7 @@
 
 template <typename T>
 class Queue {
-    private:
+    protected:
         List<T> *queueList;
 
     public:
@@ -34,15 +34,6 @@ class Queue {
                 result = queueList->find(0);
             }
             return result;
-        }
-
-        bool isEmpty()
-        {
-            return queueList->isEmpty();
-        }
-        
-        int getSize(){
-            return queueList->getSize();
         }
 };
 

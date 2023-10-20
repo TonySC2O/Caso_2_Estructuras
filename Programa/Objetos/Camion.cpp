@@ -2,8 +2,8 @@
 #include <vector>
 #include "../Soporte/stack.cpp"
 #include "../Soporte/List.cpp"
+#include "../Casa/Casa.cpp"
 #include "Ladrillo.cpp"
-#include "PilaLadrillos.cpp"
 
 
 //Clase Pila
@@ -15,7 +15,6 @@
 template <typename T>
 class Camion : public Stack<T>{
     private:
-        Stack<T> ColaLadrillos;
         int cantidadLadrillos;
         int maxLadrillosxViaje;
         int maxTiempoViaje;
@@ -26,31 +25,31 @@ class Camion : public Stack<T>{
 
         Camion(int pMax, int pMin, int pMaxLadrillosxViaje)
         {
-            ColaLadrillos = Stack<T>();
+            this->stackList = new List<T>();
             
             this->maxTiempoViaje = pMax;
             this->minTiempoViaje = pMin;
             this->maxLadrillosxViaje = pMaxLadrillosxViaje;
         }
 
-        void Empacar(vector<Ladrillo*> pLadrillos, PilaLadrillos<Ladrillo> *pPila){
+        void Empacar(vector<Ladrillo*> pLadrillos, Casa *pDireccionCasa){
             
-            ColaLadrillos = Stack<T>();
+            this->stackList = new List<T>();
             this->cantidadLadrillos = pLadrillos.size();
 
             for (int i = 0; i < maxLadrillosxViaje; i++)
             {
                 if(i < pLadrillos.size()){
-                    ColaLadrillos.push(pLadrillos.at(i));
+                    this->push(pLadrillos.at(i));
                 }
             }
 
-            Viajar(pPila);
+            Viajar(pDireccionCasa);
         }
 
-        void EmpacarPorPartes(vector<Ladrillo*> pLadrillos, PilaLadrillos<Ladrillo> *pPila){
+        void EmpacarPorPartes(vector<Ladrillo*> pLadrillos, Casa *pDireccionCasa){
             
-            ColaLadrillos = Stack<T>();
+            this->stackList = new List<T>();
             int loops = maxLadrillosxViaje / pLadrillos.size();
             
             if(maxLadrillosxViaje % pLadrillos.size() < 0){
@@ -64,7 +63,7 @@ class Camion : public Stack<T>{
                 this->cantidadLadrillos = 0;
                 for (int j = 0; j < maxLadrillosxViaje; j++)
                 {
-                    ColaLadrillos.push(pLadrillos.at(indexLadrillo));
+                    this->push(pLadrillos.at(indexLadrillo));
                     this->cantidadLadrillos++;
                     indexLadrillo++;
 
@@ -72,31 +71,27 @@ class Camion : public Stack<T>{
                         break;
                     }
                 }
-                Viajar(pPila);
+                Viajar(pDireccionCasa);
             }
             
         }
 
-        void Viajar(PilaLadrillos<Ladrillo> *pPila){
+        void Viajar(Casa *pDireccionCasa){
             //Aquí se debe colocar un thread
             int tiempoViaje = rand()%(maxTiempoViaje+1-minTiempoViaje) + minTiempoViaje;
             cout << "El viaje a durado " << tiempoViaje << " horas" << endl;
-            Desempacar(pPila);
+            Desempacar(pDireccionCasa);
         }
 
-        void Desempacar(PilaLadrillos<Ladrillo> *pPila){
-            int lenght = ColaLadrillos.getSize();
+        void Desempacar(Casa *pDireccionCasa){
+            int lenght = this->stackList->getSize();
             for (int i = 0; i < lenght; i++)
             {
-                if (!ColaLadrillos.isEmpty())
+                if (!this->isEmpty())
                 {
-                    pPila->push(ColaLadrillos.pop());
-                    
+                    pDireccionCasa->getPilaLadrillos()->push(this->pop());
                 }
-                
-                cout << pPila->getSize() << " y "<< ColaLadrillos.getSize()<< endl;
             }
-            cout <<pPila->getSize() << endl;
         }
 
         int getMaxLadrillosxViaje(){

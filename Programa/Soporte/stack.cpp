@@ -6,7 +6,7 @@
 
 template <typename T>
 class Stack {
-    private:
+    protected:
         List<T> *stackList;
 
     public:

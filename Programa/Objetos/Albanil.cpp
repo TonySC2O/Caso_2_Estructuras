@@ -1,6 +1,6 @@
 #include "../Soporte/queue.cpp"
 #include "../Soporte/List.cpp"
-#include "PilaLadrillos.cpp"
+#include "../Soporte/stack.cpp"
 #include "Ladrillo.cpp"
 #include "../Casa/Casa.cpp"
 
@@ -14,7 +14,6 @@
 template <typename T>
 class Albanil : public Queue<T>{
     private:
-        Queue<T> *CargaLadrillos;
         int maxLadrillosCargados;
         int maxTiempoColocar;
         int minTiempoColocar;
@@ -26,42 +25,41 @@ class Albanil : public Queue<T>{
             this->maxTiempoColocar = pMaxTiempo;
             this->minTiempoColocar = pMinTiempo;
             this->cargandoLadrillo = false;
-            CargaLadrillos = new Queue<T>();
+            this->queueList = new List<T>();
         }
 
-        void RecogerLadrillos(PilaLadrillos<Ladrillo> *pPila, Casa pCasa){
+        void RecogerLadrillos(Casa *pCasa){
 
-            if (pPila->getSize() == 0)
+            if (pCasa->getPilaLadrillos()->getSize() == 0)
             {
                 /* code */
             }
             
 
             cargandoLadrillo = true;
-            cout << "Entro" << endl;
-            while(CargaLadrillos->getSize() < maxLadrillosCargados){
-                //if (pPila.getSize() > 0){
-                    CargaLadrillos->enqueue(pPila->pop());
-                //}
+            while(this->queueList->getSize() < maxLadrillosCargados){
+                if (pCasa->getPilaLadrillos()->getSize() > 0){
+                    this->enqueue(pCasa->getPilaLadrillos()->pop());
+                }
             }
 
-            cout << "Se han cargado " << CargaLadrillos->getSize() << " ladrillos" << endl;
+            cout << "Se han cargado " << this->queueList->getSize() << " ladrillos" << endl;
             ColocarLadrillos(pCasa);
         }
         
-        void ColocarLadrillos(Casa pCasa){
+        void ColocarLadrillos(Casa *pCasa){
             //Aqui va un thread
             
             int tiempoViaje = rand()%(maxTiempoColocar+1-minTiempoColocar) + minTiempoColocar;
             
             int i = 0;
-            while(CargaLadrillos->getSize() >= 0)
+            while(this->queueList->getSize() >= 0)
             {
-                if(CargaLadrillos->isEmpty()){
+                if(this->queueList->isEmpty()){
                     break;
                 }
-                pCasa.getMuros()->at(pCasa.getMurosCompletados()).AgregarLadrillo(CargaLadrillos->dequeue());
-                pCasa.VerificarMuroConstruido();
+                pCasa->getMuros()->at(pCasa->getMurosCompletados()).AgregarLadrillo(this->dequeue());
+                pCasa->VerificarMuroConstruido();
                 i++;
             }
             cargandoLadrillo = false;

@@ -2,7 +2,6 @@
 #include "../Objetos/Camion.cpp"
 #include "../Objetos/Encargado.cpp"
 #include "../Objetos/Fabrica.cpp"
-#include "../Objetos/PilaLadrillos.cpp"
 #include "../Objetos/Ladrillo.cpp"
 #include "../Objetos/Albanil.cpp"
 #include "../Json/json.hpp"
@@ -15,7 +14,6 @@ class Manager{
     private:
         Encargado *encargado;
         Fabrica *fabrica;
-        PilaLadrillos<Ladrillo> *pilaLadrillos;
         Albanil<Ladrillo> *albanil;
 
     public:
@@ -37,7 +35,6 @@ class Manager{
                                                   pJson["informacion"]["albañil"]["maxTiempoColocar"],
                                                   pJson["informacion"]["albañil"]["minTiempoColocar"]);
             
-            this->pilaLadrillos = new PilaLadrillos<Ladrillo>();
         }
 
         Encargado* getEncargado(){
@@ -46,14 +43,6 @@ class Manager{
         
         Fabrica* getFabrica(){
             return fabrica;
-        }
-        
-        PilaLadrillos<Ladrillo>* getPilaLadrillos(){
-            return pilaLadrillos;
-        }
-
-        void setPilaLadrillos(PilaLadrillos<Ladrillo> *pPila){
-            this->pilaLadrillos = pPila;
         }
         
         Albanil<Ladrillo>* getAlbanil(){

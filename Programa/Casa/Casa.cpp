@@ -1,6 +1,8 @@
 
 #include <vector>
 #include "Muro.cpp"
+#include "../Objetos/Ladrillo.cpp"
+#include "../Soporte/stack.cpp"
 
 #ifndef CASA 
 
@@ -13,21 +15,24 @@ class Casa{
         int cantidadMuros;
         int presupuestoInicial;
         int murosCompletados = 0;
-        vector<Muro>* Muros;
         bool casaConstruida;
+        vector<Muro> *muros;
+        Stack<Ladrillo> *pilaLadrillos;
     public:
         Casa(){}
+
         Casa(vector<int> pMuros, int pPresupuesto)
         {
             this->presupuestoInicial = pPresupuesto;
             this->cantidadMuros = pMuros.size();
             this->murosCompletados = 0;
             this->casaConstruida = false;
-            this->Muros = new vector<Muro>();
+            this->muros = new vector<Muro>();
+            this->pilaLadrillos = new Stack<Ladrillo>();
 
             for (int i = 0; i < cantidadMuros; i++)
             {
-                this->Muros->push_back(pMuros.at(i));
+                this->muros->push_back(pMuros.at(i));
             }
             
         }
@@ -46,19 +51,26 @@ class Casa{
 
         vector<Muro>* getMuros()
         {
-            return Muros;
+            return muros;
+        }
+
+        Stack<Ladrillo>* getPilaLadrillos(){
+            return pilaLadrillos;
         }
 
         void VerificarMuroConstruido(){
-            if (Muros->at(murosCompletados).getLadrillosColocados() >= Muros->at(murosCompletados).getCantidadLadrillos())
+            if (muros->at(murosCompletados).getLadrillosColocados() >= muros->at(murosCompletados).getCantidadLadrillos())
             {
                 murosCompletados++;
+                cout << "Se ha completado un muro, muros completados: " << murosCompletados << 
+                "/" << muros->size() << endl;
             }
-            if (murosCompletados == Muros->size())
+            if (murosCompletados == muros->size())
             {
                 this->casaConstruida = true;
             }
         }
+
 };
 
 #endif

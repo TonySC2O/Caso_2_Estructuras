@@ -3,8 +3,7 @@
 
 #include "Ladrillo.cpp"
 #include "Camion.cpp"
-#include "PilaLadrillos.cpp"
-#include "Ladrillo.cpp"
+#include "../Casa/Casa.cpp"
 
 #ifndef FABRICA 
 
@@ -31,7 +30,7 @@ class Fabrica{
             this->camion = pCamion;
         }
 
-        void CrearLadrillos(int pPagoPedido, PilaLadrillos<Ladrillo> *pPila){
+        void CrearLadrillos(int pPagoPedido, Casa *pDireccionCasa){
             //Aquí se debe colocar un thread
             tiempoFabricar = rand()%(maxTiempoFabricar+1-minTiempoFabricar) + minTiempoFabricar;
 
@@ -44,9 +43,9 @@ class Fabrica{
             }
             
             if(ladrillosFabricados.size() <= camion.getMaxLadrillosxViaje()){
-                camion.Empacar(ladrillosFabricados, pPila);
+                camion.Empacar(ladrillosFabricados, pDireccionCasa);
             }else{
-                camion.EmpacarPorPartes(ladrillosFabricados, pPila);
+                camion.EmpacarPorPartes(ladrillosFabricados, pDireccionCasa);
             }
         }
 
