@@ -4,7 +4,7 @@
 #include "../Soporte/List.cpp"
 #include "../Casa/Casa.cpp"
 #include "Ladrillo.cpp"
-
+#include "../Threads/ThreadCamion.cpp"
 
 //Clase Pila
 
@@ -19,79 +19,101 @@ class Camion : public Stack<T>{
         int maxLadrillosxViaje;
         int maxTiempoViaje;
         int minTiempoViaje;
-
+        Casa *direccionCasa;
+        int *tiempo;
     public:
         Camion(){}
 
-        Camion(int pMax, int pMin, int pMaxLadrillosxViaje)
+        Camion(int pMax, int pMin, int pMaxLadrillosxViaje, Casa *pCasa, int *pTiempo)
         {
             this->stackList = new List<T>();
             
             this->maxTiempoViaje = pMax;
             this->minTiempoViaje = pMin;
             this->maxLadrillosxViaje = pMaxLadrillosxViaje;
+            this->direccionCasa = pCasa;
+            this->tiempo = pTiempo;
         }
 
-        void Empacar(vector<Ladrillo*> pLadrillos, Casa *pDireccionCasa){
+        void Empacar(Stack<Ladrillo> *pLadrillos){
             
             this->stackList = new List<T>();
-            this->cantidadLadrillos = pLadrillos.size();
-
+            this->cantidadLadrillos = pLadrillos->getSize();
+            
             for (int i = 0; i < maxLadrillosxViaje; i++)
             {
-                if(i < pLadrillos.size()){
-                    this->push(pLadrillos.at(i));
+                this->push(pLadrillos->pop());
+
+                if (pLadrillos->getSize() == 0){
+                    break;
                 }
+                
             }
 
-            Viajar(pDireccionCasa);
+            Viajar();
         }
 
-        void EmpacarPorPartes(vector<Ladrillo*> pLadrillos, Casa *pDireccionCasa){
+        void EmpacarPorPartes(Stack<Ladrillo> *pLadrillos){
             
             this->stackList = new List<T>();
-            int loops = maxLadrillosxViaje / pLadrillos.size();
-            
-            if(maxLadrillosxViaje % pLadrillos.size() < 0){
+            int loops = pLadrillos->getSize() / maxLadrillosxViaje;
+
+            if(maxLadrillosxViaje % pLadrillos->getSize() > 0){
                 loops++;
             }
             
             int indexLadrillo = 0;
+
+            cout << "El envio se necesitará repartir en " << loops << " viajes." << endl;
             
             for (int i = 0; i < loops; i++)
             {
                 this->cantidadLadrillos = 0;
                 for (int j = 0; j < maxLadrillosxViaje; j++)
                 {
-                    this->push(pLadrillos.at(indexLadrillo));
+                    this->push(pLadrillos->pop());
                     this->cantidadLadrillos++;
                     indexLadrillo++;
 
                     if(indexLadrillo == maxLadrillosxViaje){
                         break;
                     }
+
+                    if(pLadrillos->getSize() == 0){
+                        break;
+                    }
                 }
-                Viajar(pDireccionCasa);
+                cout << "=======================================" << endl
+                << "Se van a enviar " << this->getSize() << " ladrillos" << endl; 
+                Viajar();
+                if (pLadrillos->getSize() != 0){
+                    cout << "Se enviaron los ladrillos, faltan " << pLadrillos->getSize() << endl; 
+                }
+                
             }
             
         }
 
-        void Viajar(Casa *pDireccionCasa){
-            //Aquí se debe colocar un thread
+        void Viajar(){
             int tiempoViaje = rand()%(maxTiempoViaje+1-minTiempoViaje) + minTiempoViaje;
-            cout << "El viaje a durado " << tiempoViaje << " horas" << endl;
-            Desempacar(pDireccionCasa);
+            ThreadCamion hiloCamion(tiempoViaje, tiempo);
+            hiloCamion.Iniciar();
+            Desempacar();
         }
 
-        void Desempacar(Casa *pDireccionCasa){
+        void Desempacar(){
             int lenght = this->stackList->getSize();
             for (int i = 0; i < lenght; i++)
             {
                 if (!this->isEmpty())
                 {
-                    pDireccionCasa->getPilaLadrillos()->push(this->pop());
+                    direccionCasa->getPilaLadrillos()->push(this->pop());
                 }
             }
+        }
+        
+        int getMediaViaje(){
+            return (int) (minTiempoViaje+maxTiempoViaje)/2;
         }
 
         int getMaxLadrillosxViaje(){

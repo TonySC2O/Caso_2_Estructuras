@@ -18,6 +18,7 @@ class Casa{
         bool casaConstruida;
         vector<Muro> *muros;
         Stack<Ladrillo> *pilaLadrillos;
+
     public:
         Casa(){}
 
@@ -47,6 +48,21 @@ class Casa{
 
         bool isCasaConstruida(){
             return casaConstruida;
+        }
+
+        int getCantidadLadrillos(){
+            int ladrillos = 0;
+            
+            for (int i = 0; i < muros->size(); i++)
+            {
+                ladrillos += muros->at(i).getLadrillosColocados();
+            }
+
+            return ladrillos;
+        }
+
+        int getCantidadLadrillosxMuro(int pIndex){
+           return muros->at(pIndex).getLadrillosColocados();
         }
 
         vector<Muro>* getMuros()

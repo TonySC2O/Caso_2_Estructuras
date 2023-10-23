@@ -4,6 +4,7 @@
 #include "../Objetos/Fabrica.cpp"
 #include "../Objetos/Ladrillo.cpp"
 #include "../Objetos/Albanil.cpp"
+#include "../Casa/Casa.cpp"
 #include "../Json/json.hpp"
 
 #ifndef MANAGER 
@@ -17,23 +18,23 @@ class Manager{
         Albanil<Ladrillo> *albanil;
 
     public:
-        Manager(){}
-        Manager(nlohmann::json pJson){
-            this->encargado = new Encargado(pJson["informacion"]["casa"]["presupuesto"],
-                                            pJson["informacion"]["encargado"]["gastoxPedido"]);
-
+        Manager(nlohmann::json pJson, Casa *pCasa, int *pTiempo){
+            
             Camion<Ladrillo> camion(pJson["informacion"]["camion"]["maxTiempoViaje"],
                                       pJson["informacion"]["camion"]["minTiempoViaje"],
-                                      pJson["informacion"]["camion"]["maxLadrillosxViaje"]);
+                                      pJson["informacion"]["camion"]["maxLadrillosxViaje"], pCasa, pTiempo);
 
             this->fabrica = new Fabrica(pJson["informacion"]["fabrica"]["maxTiempoFabricar"],
                                         pJson["informacion"]["fabrica"]["minTiempoFabricar"],
                                         pJson["informacion"]["fabrica"]["ladrilloxPago"],
-                                        pJson["informacion"]["fabrica"]["pago"], camion);
+                                        pJson["informacion"]["fabrica"]["pago"], camion, pTiempo);
+
+            this->encargado = new Encargado(pJson["informacion"]["casa"]["presupuesto"],
+                                            pJson["informacion"]["encargado"]["gastoxPedido"], pTiempo, fabrica);
             
             this->albanil = new Albanil<Ladrillo>(pJson["informacion"]["albañil"]["maxLadrillosCargados"],
                                                   pJson["informacion"]["albañil"]["maxTiempoColocar"],
-                                                  pJson["informacion"]["albañil"]["minTiempoColocar"]);
+                                                  pJson["informacion"]["albañil"]["minTiempoColocar"], pTiempo, encargado);
             
         }
 

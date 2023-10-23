@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <thread>
+#include "ThreadSecundario.cpp"
 
 #ifndef THREADCAMION
 
@@ -8,33 +9,27 @@
 
 using namespace std;
 
-class ThreadCamion{
+class ThreadCamion: public ThreadSecundario{
     private:
-        thread hilo;
-        int tiempo = 0;
-        int cantidadTiempo = 0;
 
-        void Ejecutar() {
+        virtual void Ejecutar() override {
             while(true){
                 tiempo++;
                 std::this_thread::sleep_for(std::chrono::seconds(1));
-                cout << "Viajando " << tiempo << endl;
+                cout << "Hilo " << *tiempoActual + tiempo << endl <<
+                "El camión está viajando... " << endl <<
+                "---------------------------------------" << endl;
                 if(tiempo == cantidadTiempo){
+                    *tiempoActual = *tiempoActual + tiempo;
+                    cout << "El viaje a durado " << cantidadTiempo << " horas" << endl;
                     break;
                 }
             }
         }
-
+        
     public:
-        ThreadCamion(){
-        }
-        ThreadCamion(int pCantidadTiempo){
-            this->cantidadTiempo = pCantidadTiempo;
-        }
-        void Iniciar() {
-            hilo = thread(&ThreadCamion::Ejecutar, this);
-            hilo.join();
-        }
+        ThreadCamion(){}
+        ThreadCamion(int pCantidadTiempo, int *pTiempoActual) : ThreadSecundario(pCantidadTiempo, pTiempoActual){}
 };
 
 #endif

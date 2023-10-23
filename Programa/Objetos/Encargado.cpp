@@ -14,13 +14,16 @@ class Encargado{
         int presupuesto;
         int gastoxPedido;
         int presupuestoExtra;
-
+        int *tiempo;
+        Fabrica *fabrica;
     public:
-        Encargado(int pPresupuesto, int pGastoxPedido)
+        Encargado(int pPresupuesto, int pGastoxPedido, int *pTiempo, Fabrica *pFabrica)
         {
             this->presupuesto = pPresupuesto;
             this->gastoxPedido = pGastoxPedido;
             this->presupuestoExtra = 0;
+            this->tiempo = pTiempo;
+            this->fabrica = pFabrica;
         }
 
         void PedirPresupuesto(int pCantidad){
@@ -30,17 +33,20 @@ class Encargado{
             << "Total de presupuesto extra pedido: $" << presupuestoExtra << endl;
         }
 
-        void EncargarLadrillos(Fabrica *pFabrica, Casa *pDireccionCasa){
+        void EncargarLadrillos(){
             if(presupuesto-gastoxPedido < 0){
                 PedirPresupuesto(gastoxPedido);
-                EncargarLadrillos(pFabrica, pDireccionCasa);
-            }else{
-                pFabrica->CrearLadrillos(gastoxPedido, pDireccionCasa);
             }
+            presupuesto -= gastoxPedido;
+            fabrica->CrearLadrillos(gastoxPedido);
         }
 
         int getPresupuesto(){
             return presupuesto;
+        }
+
+        int getPresupuestoExtra(){
+            return presupuestoExtra;
         }
 };
 

@@ -35,6 +35,15 @@ class Queue {
             }
             return result;
         }
+
+        bool isEmpty()
+        {
+            return queueList->isEmpty();
+        }
+
+        int getSize(){
+            return queueList->getSize();
+        }
 };
 
 #endif
